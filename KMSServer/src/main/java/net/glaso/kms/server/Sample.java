@@ -11,4 +11,5 @@ public class Sample {
 
     public void tst5() {}
 
+    public void test6() {}
 }
