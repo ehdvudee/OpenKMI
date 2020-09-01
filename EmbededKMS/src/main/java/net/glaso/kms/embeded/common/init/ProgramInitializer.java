@@ -2,10 +2,22 @@ package net.glaso.kms.embeded.common.init;
 
 import net.glaso.kms.embeded.common.exceptions.KmsNullPointerException;
 import net.glaso.kms.embeded.common.kmsenum.EnumErrorCode;
+import net.glaso.kms.embeded.common.mapper.key.KeyMapper;
 import net.glaso.kms.embeded.common.properties.ConfGetter;
+import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.mapping.Environment;
+import org.apache.ibatis.session.Configuration;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+import org.apache.ibatis.transaction.TransactionFactory;
+import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
+import org.apache.ibatis.type.JdbcType;
 
+import javax.sql.DataSource;
+import javax.swing.text.Keymap;
 import java.io.*;
 import java.net.URL;
+import java.sql.JDBCType;
 import java.util.Properties;
 import java.util.logging.Logger;
 
@@ -20,6 +32,20 @@ public final class ProgramInitializer {
 
     public ProgramInitializer( String kekPassword ) {
         this.kekPassword = kekPassword;
+    }
+
+    public SqlSessionFactory initMybatis( DataSource dataSource ) {
+        TransactionFactory transactionFactory = new JdbcTransactionFactory();
+        Environment environment = new Environment( "EmbeddedKms", transactionFactory, dataSource );
+        Configuration configuration = new Configuration( environment );
+
+        configuration.getTypeAliasRegistry().registerAliases( "net.glaso.kms.embeded.common.domain" );
+        configuration.getMapperRegistry().addMapper( KeyMapper.class );
+        configuration.setJdbcTypeForNull( JdbcType.NULL );
+
+        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build( configuration );
+
+        return sqlSessionFactory;
     }
 
     public ConfGetter initProperties() throws IOException {
