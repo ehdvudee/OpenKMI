@@ -1,8 +1,7 @@
 package net.glaso.kms.embeded.common.properties;
 
-import net.glaso.kms.embeded.common.utils.DataTypeConverter;
+import net.glaso.kms.embeded.common.utils.app.DataTypeConverter;
 
-import javax.xml.bind.DatatypeConverter;
 import java.util.Properties;
 
 public class ConfGetter {

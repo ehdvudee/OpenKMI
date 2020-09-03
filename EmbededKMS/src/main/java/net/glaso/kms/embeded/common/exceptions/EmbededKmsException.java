@@ -3,7 +3,7 @@ package net.glaso.kms.embeded.common.exceptions;
 import net.glaso.kms.embeded.common.kmsenum.EnumErrorCode;
 
 @SuppressWarnings("serial")
-public abstract class EmbededKmsException extends RuntimeException implements IEmbededKmsException {
+public abstract class EmbededKmsException extends RuntimeException {
 		
 	private final EnumErrorCode errCode;
 
@@ -22,7 +22,6 @@ public abstract class EmbededKmsException extends RuntimeException implements IE
 		this.errCode = errCode;
 	}
 
-	@Override
 	public EnumErrorCode getErrCode() {
 		return errCode;
 	}
