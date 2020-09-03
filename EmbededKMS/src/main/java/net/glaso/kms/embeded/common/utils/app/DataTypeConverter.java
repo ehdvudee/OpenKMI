@@ -1,4 +1,4 @@
-package net.glaso.kms.embeded.common.utils;
+package net.glaso.kms.embeded.common.utils.app;
 
 public class DataTypeConverter {
 

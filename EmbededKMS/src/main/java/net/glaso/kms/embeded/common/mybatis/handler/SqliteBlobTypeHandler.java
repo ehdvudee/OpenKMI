@@ -1,10 +1,10 @@
-package net.glaso.kms.embeded.common.handler.mybatis;
+package net.glaso.kms.embeded.common.mybatis.handler;
+
+import org.apache.ibatis.type.BlobTypeHandler;
 
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
-import org.apache.ibatis.type.BlobTypeHandler;
 
 public class SqliteBlobTypeHandler extends BlobTypeHandler {
 
