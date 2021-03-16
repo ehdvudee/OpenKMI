@@ -1,0 +1,133 @@
+Lightweight-OpenKMS
+			
+	할 것
+		인텔리J 통합 워크스페이스(모듈) 프로젝트 구성
+		모듈 구성한 것 commit 하기 
+		구성도(청사진) 그리기
+		실 업무 플로우 정의
+		DB 설계 실시
+		README 작성
+		
+	프로젝트 구성
+		Spring Boot 2.x
+		Spring 5.x
+		java 8.x
+		JPA ?
+		부트에서 main JAR에서 패스워드 입력 받아 프로퍼티 파일 복호화
+		
+	필요 파악사항
+		KEK 풀 원리 파악
+		KEK HSM 연동 생각해보기
+		로드벨런싱 모델할 경우, 어떻게 구성할지 고민
+		소켓 통신용으로도 개발
+		OAUTH 클라
+		GitHub CI, 또는 그냥 CI 확인해보기(프로덕션 배포 리파지토리 확인)
+		
+	준수 사항
+		NIST 800 90a 암호키 생성
+		JWT(TokenRevokeList 추가)
+		
+	항목
+		kms
+		텍스트 어드민
+		클라이언트 라이브러리
+	
+	초기 암호화키 세팅 방안
+		초기 설정파일(복호화 방안에 대한 설정파일) <= 얘 먼저 읽고 그다음 진행 
+			USB를 통한 WAS 가동(USB안에 암호키, 구현체에서 USB 리드 및 암호키 조회)
+			Spring-Boot 가동시 비밀번호 입력을 통한(스프링 아규먼트 값 전달)
+			특정 파일 경로에서 암호키를 읽고 삭제하기 
+		
+	
+	준비 메모
+		auth 기능 통합 시키기
+		그룹 기능
+		키 타입
+			대칭키
+			인증서
+			공개키
+			시크릿 데이터
+			스플릿 키(분할키)
+			PKCS12
+			IV
+		API
+			
+			createSymmetricKey
+			crateKeyPair
+			registerSymmetricKey
+			registerKeyPair
+			registerPublicKey
+			registerPrivateKey
+			registerCert(자동으로 publicKey 등록)
+			registerCertSet
+			registerPkcs12
+			generateSymmetricKey
+			generateKeyPair
+			verify/sign(인증서, p12, 공개키, 개인키 다 가능)
+			encrypt/decrypt 
+			User 관련 API
+			토근 관련 API
+		API 메모
+			REST API는 다중 처리를 염두해서 진행
+			모든 API의 메타 데이터는 Enum 정보
+		
+	DB 테이블
+		user_info 
+		token_revoke_list
+		key_policy(디폴트 키폴리시 정보 적재, 키폴리시 적재안하면 디폴트 적용하기 알고리즘별, 대칭키별)
+		key_crypto_object
+		key_info
+		key_own
+		key_state_info
+		api_audit
+		scheduler_audit
+		key_code
+		service_code
+		
+		key_own_group
+		group_info
+		user_group_info
+			
+EmbededKMS
+	유효기간 만료기간(start, deact, protectstop)
+	키 스테이트 (정지 추가)
+	api
+		감사로그
+		키 조회 
+		암복호화
+		서명검증
+	캐시 기능 on/off >> 개수 또는 크기로 map이나 큐 핸들링
+	키 필드 << kmip 확인해서 적용하기 
+	JavaFX를 통한 어플리케이션 제어(미니 어드민)
+		데이터 마이그레이션(암호키 갱신)
+		DB 생성
+		유저 생성 관리
+		암호키 관리
+		
+	
+확인하기
+	logging 수용하면서 없을 때 내거 쓰기
+	Apache Common Pool StackObjectPool	 https://stackoverflow.com/questions/13913075/to-pool-or-not-to-pool-java-crypto-service-providers
+	
+	소스에 주석 다 달아야 함 commit date 파악하면서 달아야 함 
+	배치 파일로 초기 설정 파일 json으로 만들기 
+	DB 설계 시작 하기 
+	embddedkms readme 작성하기
+	
+	쓰레드 추가 생성을 통해 스케줄러 돌리기(IdleConnectionMonitorThread 참고)
+	
+	유저 관점 init 데이터 파악해야 함 
+		cipher pool 개수
+		signature pool 개수 
+		user, pw => password 검증 절차 추가해야함 틀리면 밴 
+		
+	
+EmbeddedKMs 만들면서 겪은 문제점
+	cipher 클래스 poolable 하기
+	밖 설정, 안 설정 구분하기(밖 설정은 kms jar와 같이 진행)
+	암호키의 변경(마이그레이션의 지원)
+	초기화 작업
+	별도의 스케줄링 작업
+	
+		
+		
